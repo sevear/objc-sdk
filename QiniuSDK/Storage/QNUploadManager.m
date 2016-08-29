@@ -29,6 +29,15 @@
 	return [self initWithRecorder:nil recorderKeyGenerator:nil];
 }
 
+- (instancetype)initWithHost:(NSString *)host backupHost:(NSString *)backupHost{
+    if (self = [super init]) {
+        _httpManager = [[QNHttpManager alloc] initWithHost:host backupHost:backupHost];
+        _recorder = nil;
+        _recorderKeyGen = nil;
+    }
+    return self;
+}
+
 - (instancetype)initWithRecorder:(id <QNRecorderDelegate> )recorder {
 	return [self initWithRecorder:recorder recorderKeyGenerator:nil];
 }

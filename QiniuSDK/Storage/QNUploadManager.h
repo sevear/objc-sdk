@@ -19,6 +19,8 @@ typedef NSString *(^QNRecorderKeyGenerator)(NSString *uploadKey, NSString *fileP
 
 - (instancetype)init;
 
+- (instancetype)initWithHost:(NSString *)host backupHost:(NSString *)backupHost;
+
 - (instancetype)initWithRecorder:(id <QNRecorderDelegate> )recorder;
 
 - (instancetype)initWithRecorder:(id <QNRecorderDelegate> )recorder
