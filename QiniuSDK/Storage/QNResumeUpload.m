@@ -212,7 +212,7 @@ typedef void (^task)(void);
 
 			NSString *nextHost = host;
 			if (info.isConnectionBroken) {
-				nextHost = kQNUpHostBackup;
+				nextHost = _httpManager.backupUploadHost;
 			}
 
 			[self nextTask:offset retriedTimes:retried + 1 host:nextHost];
@@ -322,7 +322,7 @@ typedef void (^task)(void);
 - (void)run {
 	@autoreleasepool {
 		UInt32 offset = [self recoveryFromRecord];
-		[self nextTask:offset retriedTimes:0 host:kQNUpHost];
+		[self nextTask:offset retriedTimes:0 host:_httpManager.uploadHost];
 	}
 }
 

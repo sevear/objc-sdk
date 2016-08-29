@@ -136,9 +136,10 @@
 			completionHandler(info, key, resp);
 			return;
 		}
-		NSString *nextHost = kQNUpHost;
+        NSString *nextHost = _httpManager.uploadHost;
+        
 		if (info.isConnectionBroken) {
-			nextHost = kQNUpHostBackup;
+            nextHost = _httpManager.backupUploadHost;
 		}
 
 		QNCompleteBlock retriedComplete = ^(QNResponseInfo *info, NSDictionary *resp) {
@@ -158,7 +159,7 @@
 		 withCancelBlock:nil];
 	};
 
-	[_httpManager multipartPost:[NSString stringWithFormat:@"http://%@", kQNUpHost]
+	[_httpManager multipartPost:[NSString stringWithFormat:@"http://%@", _httpManager.uploadHost]
 	 withData:data
 	 withParams:parameters
 	 withFileName:fileName

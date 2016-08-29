@@ -16,6 +16,12 @@ typedef BOOL (^QNCancelBlock)(void);
 
 @interface QNHttpManager : NSObject
 
+@property (nonatomic, readonly) NSString *uploadHost;
+
+@property (nonatomic, readonly) NSString *backupUploadHost;
+
+- (id)initWithHost:(NSString *)host backupHost:(NSString *)backupHost;
+
 - (void)    multipartPost:(NSString *)url
                  withData:(NSData *)data
                withParams:(NSDictionary *)params

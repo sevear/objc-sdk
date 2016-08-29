@@ -28,14 +28,22 @@ static NSString *userAgent = nil;
 	userAgent = QNUserAgent();
 }
 
-- (instancetype)init {
-	if (self = [super init]) {
-		NSString *url = [NSString stringWithFormat:@"http://%@", kQNUpHost];
-		_httpManager = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:url]];
-		NSString *url2 = [NSString stringWithFormat:@"http://%@", kQNUpHostBackup];
-		_httpManagerBackup = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:url2]];
-	}
+- (id)initWithHost:(NSString *)host backupHost:(NSString *)backupHost{
+    if (self = [super init]) {
+        _uploadHost = host;
+        _backupUploadHost = backupHost;
+        
+        NSString *url = [NSString stringWithFormat:@"http://%@", _uploadHost];
+        _httpManager = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:url]];
+        NSString *url2 = [NSString stringWithFormat:@"http://%@", _backupUploadHost];
+        _httpManagerBackup = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:url2]];
+    }
+    
+    return self;
+}
 
+- (instancetype)init {
+    self = [self initWithHost:kQNUpHost backupHost:kQNUpHostBackup];
 	return self;
 }
 
@@ -60,7 +68,7 @@ static NSString *userAgent = nil;
         withCompleteBlock:(QNCompleteBlock)completeBlock
         withProgressBlock:(QNInternalProgressBlock)progressBlock {
 	AFHTTPClient *client = _httpManager;
-	if ([kQNUpHostBackup isEqualToString:request.URL.host]) {
+	if ([self.backupUploadHost isEqualToString:request.URL.host]) {
 		client = _httpManagerBackup;
 	}
 
@@ -102,7 +110,7 @@ static NSString *userAgent = nil;
         withProgressBlock:(QNInternalProgressBlock)progressBlock
           withCancelBlock:(QNCancelBlock)cancelBlock {
 	AFHTTPClient *client = _httpManager;
-	if ([url hasSuffix:kQNUpHostBackup]) {
+	if ([url hasSuffix:self.httpManagerBackup]) {
 		client = _httpManagerBackup;
 	}
 
