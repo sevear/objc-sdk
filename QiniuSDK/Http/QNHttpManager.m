@@ -110,7 +110,7 @@ static NSString *userAgent = nil;
         withProgressBlock:(QNInternalProgressBlock)progressBlock
           withCancelBlock:(QNCancelBlock)cancelBlock {
 	AFHTTPClient *client = _httpManager;
-	if ([url hasSuffix:self.httpManagerBackup]) {
+	if ([url hasSuffix:self.backupUploadHost]) {
 		client = _httpManagerBackup;
 	}
 
